@@ -1,8 +1,7 @@
-<template>
-  <div class="counter">
-    <h1>I am a Counter Component. Edit me in dev mode.</h1>
-    <p>Current count: \{{ count }}</p>
-  </div>
+<template lang="pug">
+.counter
+  h1 I am a Counter Component. Edit me in dev mode.
+  p Current count: \{{ count }}
 </template>
 
 <script>

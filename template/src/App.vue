@@ -1,11 +1,11 @@
-<template>
-  <header>
-    <h1>\{{ msg }}</h1>
-
-    <comp-a></comp-a>
-    <comp-b></comp-b>
-    <counter><counter>
-  </header>
+<template lang="pug">
+header
+  img(src="../assets/images/logo.png")
+  h1 \{{ msg }}
+  comp-a
+  comp-b
+  counter
+    counter
 </template>
 
 <script>

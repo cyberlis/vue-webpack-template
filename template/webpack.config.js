@@ -3,6 +3,7 @@ const webpack = require('webpack')
 
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const ExtractTextPlugin  = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const autoprefixer = require('autoprefixer')
 const cssnano      = require('cssnano')
@@ -14,8 +15,9 @@ module.exports = {
   context: __dirname,
   entry: './src/main.js',
   output: {
-    publicPath: 'http://localhost:8080/', // for absolute path in css images for sourceMap
-    filename: 'dist/main.bundle.js'
+    path: __dirname + '/dist',
+    publicPath: '/', // for absolute path in css images for sourceMap
+    filename: 'main.bundle.js'
   },
   resolveLoader: {
     root: path.join(__dirname, 'node_modules'),
@@ -24,10 +26,7 @@ module.exports = {
     loaders: [
       {
         test: /\.vue$/,
-        loader: 'vue',
-        options: {
-          extractCSS: true
-        }
+        loader: 'vue'
       },
       {
         test: /\.js$/,
@@ -43,6 +42,10 @@ module.exports = {
         loader: 'vue-html'
       },
       {
+        test: /\.(pug|jade)$/,
+        loader: 'pug-loader'
+      },
+      {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract('style', `css${cssDev}!postcss`)
       },
@@ -51,8 +54,8 @@ module.exports = {
         loader: ExtractTextPlugin.extract('style', `css${cssDev}!postcss!stylus`)
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file?name=assets/images/[name].[ext]?[hash]'
+        test: /\.(png|jpeg|jpg|gif|svg|ico|woff|ttf|eot|wav|mp3)$/,
+        loader: 'file?name=[path][name].[ext]?[hash]'
       }
     ]
   },
@@ -68,8 +71,12 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin('dist/'),
-    new ExtractTextPlugin('dist/styles.min.css', {
+    new ExtractTextPlugin('styles.min.css', {
       disable: !isProd
+    }),
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: "./src/index.pug"
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
